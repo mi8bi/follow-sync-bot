@@ -23,4 +23,4 @@ jobs:
       - name: Run follow sync script
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
-        run: python scripts/main.py
+        run: python -m scripts.main
