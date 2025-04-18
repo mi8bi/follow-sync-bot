@@ -1,9 +1,12 @@
 import requests
-from utils import get_headers
+from scripts.utils import get_headers
 
-def follow_users(token, usernames):
+def follow_users(token, usernames, dry_run=False):
     headers = get_headers(token)
     for username in sorted(usernames):
+        if dry_run:
+            print(f"[DRY-RUN] Would follow: {username}")
+            continue
         url = f"https://api.github.com/user/following/{username}"
         resp = requests.put(url, headers=headers)
         if resp.status_code in [204, 304]:
@@ -11,9 +14,12 @@ def follow_users(token, usernames):
         else:
             print(f"❌ Failed to follow {username}: {resp.status_code} - {resp.text}")
 
-def unfollow_users(token, usernames):
+def unfollow_users(token, usernames, dry_run=False):
     headers = get_headers(token)
     for username in sorted(usernames):
+        if dry_run:
+            print(f"[DRY-RUN] Would unfollow: {username}")
+            continue
         url = f"https://api.github.com/user/following/{username}"
         resp = requests.delete(url, headers=headers)
         if resp.status_code == 204:
