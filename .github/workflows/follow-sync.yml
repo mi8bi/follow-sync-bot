@@ -1,4 +1,4 @@
-name: Auto Follow Management
+name: run
 
 on:
   workflow_dispatch:  # 手動実行トリガー
