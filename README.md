@@ -1,3 +1,6 @@
+[![run](https://github.com/mi8bi/follow-sync-bot/actions/workflows/follow-sync.yml/badge.svg)](https://github.com/mi8bi/follow-sync-bot/actions/workflows/follow-sync.yml)
+[![tests](https://github.com/mi8bi/follow-sync-bot/actions/workflows/test.yml/badge.svg)](https://github.com/mi8bi/follow-sync-bot/actions/workflows/test.yml)
+
 # Follow Sync Bot
 A simple GitHub bot to manage your followers and following list. This bot helps you keep track of users you follow and automatically follow back, as well as unfollow users who no longer follow you.
 
@@ -82,4 +85,4 @@ We welcome contributions to improve this project! If you want to contribute, ple
 
 
 ## License
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
