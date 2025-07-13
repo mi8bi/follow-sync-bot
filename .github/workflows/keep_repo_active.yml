@@ -1,30 +1,33 @@
-name: Keep Repo Active (via Star/Unstar)
+name: Keep Repo Active
 
 on:
-  workflow_dispatch:  # 手動実行トリガー
+  workflow_dispatch:
   schedule:
-    - cron: '0 0 */30 * *'  # Run once every 30 days
+    - cron: '0 0 */30 * *'  # 30日ごとに実行
+
+permissions:
+  contents: write
 
 jobs:
-  star-unstar:
+  keep-active:
     runs-on: ubuntu-latest
     steps:
-      - name: Install GitHub CLI
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Update activity file
         run: |
-          sudo apt update
-          sudo apt install gh -y
-
-      - name: Authenticate with GitHub CLI
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          mkdir -p .github
+          echo "Repository last active: $(date -u)" > .github/keep_active.txt
+          
+      - name: Commit and push changes
         run: |
-          echo "$GH_TOKEN" | gh auth login --with-token
-
-      - name: Star and Unstar this repo
-        env:
-          OWNER: ${{ github.repository_owner }}
-          REPO: ${{ github.event.repository.name }}
-        run: |
-          gh repo star "$OWNER/$REPO"
-          sleep 10
-          gh repo unstar "$OWNER/$REPO"
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .github/keep_active.txt
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "🤖 Keep repository active - $(date -u)"
+            git push
+          fi
