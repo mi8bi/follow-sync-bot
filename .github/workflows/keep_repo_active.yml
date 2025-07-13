@@ -1,0 +1,30 @@
+name: Keep Repo Active (via Star/Unstar)
+
+on:
+  workflow_dispatch:  # 手動実行トリガー
+  schedule:
+    - cron: '0 0 */30 * *'  # Run once every 30 days
+
+jobs:
+  star-unstar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install GitHub CLI
+        run: |
+          sudo apt update
+          sudo apt install gh -y
+
+      - name: Authenticate with GitHub CLI
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "$GH_TOKEN" | gh auth login --with-token
+
+      - name: Star and Unstar this repo
+        env:
+          OWNER: ${{ github.repository_owner }}
+          REPO: ${{ github.event.repository.name }}
+        run: |
+          gh repo star "$OWNER/$REPO"
+          sleep 10
+          gh repo unstar "$OWNER/$REPO"
