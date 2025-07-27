@@ -1,0 +1,15 @@
+{
+  "extends": ["config:recommended"],
+  "packageRules": [
+    {
+      "matchManagers": ["pip_requirements"],
+      "groupName": "Python dependencies",
+      "updateTypes": ["minor", "patch"]
+    }
+  ],
+  "schedule": ["after 10pm on sunday"],
+  "timezone": "Asia/Tokyo",
+  "labels": ["dependencies"],
+  "prHourlyLimit": 2,
+  "prConcurrentLimit": 5
+}
