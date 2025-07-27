@@ -1,2 +1,4 @@
 pytest        # Unit test framework
 responses     # Mock HTTP for requests
+pytest-cov
+coverage

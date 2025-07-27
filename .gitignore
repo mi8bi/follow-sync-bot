@@ -159,8 +159,8 @@ cython_debug/
 # PyCharm
 #  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
 #  be found at https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore
-#  and can be added to the global gitignore or merged into this file.  For a more nuclear
-#  option (not recommended) you can uncomment the following to ignore the entire idea folder.
+#  and can be added to the global gitignore or merged into this project's .gitignore
+#  For a more nuclear option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
 ### Python Patch ###
@@ -184,5 +184,12 @@ pyrightconfig.json
 # [Ss]cripts
 pyvenv.cfg
 pip-selfcheck.json
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+.pytest_cache/
 
 # End of https://www.toptal.com/developers/gitignore/api/python,venv
