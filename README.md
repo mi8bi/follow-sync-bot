@@ -1,3 +1,9 @@
+<p align="center">
+  <a href="https://github.com/mi8bi/follow-sync-bot">
+    <img src="./assets/ogp.png" alt="OGP Image" width="800" height="420">
+  </a>
+</p>
+
 [![run](https://github.com/mi8bi/follow-sync-bot/actions/workflows/follow-sync.yml/badge.svg)](https://github.com/mi8bi/follow-sync-bot/actions/workflows/follow-sync.yml)
 [![tests](https://github.com/mi8bi/follow-sync-bot/actions/workflows/test.yml/badge.svg)](https://github.com/mi8bi/follow-sync-bot/actions/workflows/test.yml)
 [![codecov](https://codecov.io/gh/mi8bi/follow-sync-bot/branch/main/graph/badge.svg)](https://codecov.io/gh/mi8bi/follow-sync-bot)
