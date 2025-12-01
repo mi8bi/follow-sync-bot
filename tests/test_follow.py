@@ -1,5 +1,6 @@
 import pytest
 import responses
+
 from scripts.follow import follow_users, unfollow_users
 
 
@@ -10,9 +11,7 @@ class TestFollowUsers:
     def test_follow_users_success(self):
         """Test successfully following a user."""
         responses.add(
-            responses.PUT,
-            "https://api.github.com/user/following/testuser",
-            status=204
+            responses.PUT, "https://api.github.com/user/following/testuser", status=204
         )
 
         follow_users("dummy_token", {"testuser"}, dry_run=False)
@@ -27,7 +26,7 @@ class TestFollowUsers:
         responses.add(
             responses.PUT,
             "https://api.github.com/user/following/testuser",
-            status=304  # Not Modified - already following
+            status=304,  # Not Modified - already following
         )
 
         follow_users("dummy_token", {"testuser"}, dry_run=False)
@@ -42,7 +41,7 @@ class TestFollowUsers:
             responses.PUT,
             "https://api.github.com/user/following/testuser",
             status=403,
-            json={"message": "Forbidden"}
+            json={"message": "Forbidden"},
         )
 
         follow_users("dummy_token", {"testuser"}, dry_run=False)
@@ -60,7 +59,7 @@ class TestFollowUsers:
         users = {"user1", "user2", "user3"}
         follow_users("dummy_token", users, dry_run=True)
         out, _ = capfd.readouterr()
-        
+
         for user in users:
             assert f"[DRY-RUN] Would follow: {user}" in out
 
@@ -80,7 +79,7 @@ class TestUnfollowUsers:
         responses.add(
             responses.DELETE,
             "https://api.github.com/user/following/testuser",
-            status=204
+            status=204,
         )
 
         unfollow_users("dummy_token", {"testuser"}, dry_run=False)
@@ -96,7 +95,7 @@ class TestUnfollowUsers:
             responses.DELETE,
             "https://api.github.com/user/following/testuser",
             status=404,
-            json={"message": "Not Found"}
+            json={"message": "Not Found"},
         )
 
         unfollow_users("dummy_token", {"testuser"}, dry_run=False)
@@ -114,7 +113,7 @@ class TestUnfollowUsers:
         users = {"user1", "user2", "user3"}
         unfollow_users("dummy_token", users, dry_run=True)
         out, _ = capfd.readouterr()
-        
+
         for user in users:
             assert f"[DRY-RUN] Would unfollow: {user}" in out
 
