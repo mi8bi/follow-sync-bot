@@ -1,5 +1,7 @@
 import requests
+
 from scripts.utils import get_headers
+
 
 def follow_users(token, usernames, dry_run=False):
     headers = get_headers(token)
@@ -14,6 +16,7 @@ def follow_users(token, usernames, dry_run=False):
         else:
             print(f"❌ Failed to follow {username}: {resp.status_code} - {resp.text}")
 
+
 def unfollow_users(token, usernames, dry_run=False):
     headers = get_headers(token)
     for username in sorted(usernames):
@@ -26,4 +29,3 @@ def unfollow_users(token, usernames, dry_run=False):
             print(f"🔁 Unfollowed: {username}")
         else:
             print(f"⚠️ Failed to unfollow {username}: {resp.status_code} - {resp.text}")
-
