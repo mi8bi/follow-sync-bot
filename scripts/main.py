@@ -1,11 +1,17 @@
-import os
 import argparse
+import os
+
 from scripts.follow import follow_users, unfollow_users
 from scripts.utils import get_followers, get_following
 
+
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--dry-run", action="store_true", help="Simulate actions without changing anything")
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Simulate actions without changing anything",
+    )
     args = parser.parse_args()
 
     token = os.getenv("GH_TOKEN")
@@ -27,6 +33,6 @@ def main():
     follow_users(token, to_follow, dry_run=args.dry_run)
     unfollow_users(token, to_unfollow, dry_run=args.dry_run)
 
+
 if __name__ == "__main__":
     main()
-
