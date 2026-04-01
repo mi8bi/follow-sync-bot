@@ -22,3 +22,9 @@ def get_followers(token):
 def get_following(token):
     return paginate("https://api.github.com/user/following", token)
 
+def get_user_detail(token, username):
+    """Fetch detailed user information for spam detection."""
+    headers = get_headers(token)
+    resp = requests.get(f"https://api.github.com/users/{username}", headers=headers)
+    resp.raise_for_status()
+    return resp.json()
