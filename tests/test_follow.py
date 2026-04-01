@@ -1,4 +1,3 @@
-import pytest
 import responses
 from scripts.follow import follow_users, unfollow_users
 
@@ -49,22 +48,25 @@ class TestFollowUsers:
 
         assert len(responses.calls) == 1
 
-    def test_follow_users_dry_run(self, capfd):
+    @staticmethod
+    def test_follow_users_dry_run(capfd):
         """Test follow users in dry run mode."""
         follow_users("dummy_token", {"dryuser"}, dry_run=True)
         out, _ = capfd.readouterr()
         assert "[DRY-RUN] Would follow: dryuser" in out
 
-    def test_follow_users_multiple(self, capfd):
+    @staticmethod
+    def test_follow_users_multiple(capfd):
         """Test following multiple users in dry run mode."""
         users = {"user1", "user2", "user3"}
         follow_users("dummy_token", users, dry_run=True)
         out, _ = capfd.readouterr()
-        
+
         for user in users:
             assert f"[DRY-RUN] Would follow: {user}" in out
 
-    def test_follow_users_empty_list(self):
+    @staticmethod
+    def test_follow_users_empty_list():
         """Test following empty list of users."""
         follow_users("dummy_token", set(), dry_run=False)
         # Should not make any requests
@@ -103,22 +105,25 @@ class TestUnfollowUsers:
 
         assert len(responses.calls) == 1
 
-    def test_unfollow_users_dry_run(self, capfd):
+    @staticmethod
+    def test_unfollow_users_dry_run(capfd):
         """Test unfollow users in dry run mode."""
         unfollow_users("dummy_token", {"dryuser"}, dry_run=True)
         out, _ = capfd.readouterr()
         assert "[DRY-RUN] Would unfollow: dryuser" in out
 
-    def test_unfollow_users_multiple(self, capfd):
+    @staticmethod
+    def test_unfollow_users_multiple(capfd):
         """Test unfollowing multiple users in dry run mode."""
         users = {"user1", "user2", "user3"}
         unfollow_users("dummy_token", users, dry_run=True)
         out, _ = capfd.readouterr()
-        
+
         for user in users:
             assert f"[DRY-RUN] Would unfollow: {user}" in out
 
-    def test_unfollow_users_empty_list(self):
+    @staticmethod
+    def test_unfollow_users_empty_list():
         """Test unfollowing empty list of users."""
         unfollow_users("dummy_token", set(), dry_run=False)
         # Should not make any requests

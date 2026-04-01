@@ -46,8 +46,8 @@ def main():
     print("🔄 Fetching following...")
     following = get_following(token)
 
-    follower_usernames = set(f["login"] for f in followers)
-    following_usernames = set(f["login"] for f in following)
+    follower_usernames = {f["login"] for f in followers}
+    following_usernames = {f["login"] for f in following}
 
     to_follow_candidates = follower_usernames - following_usernames
     to_unfollow_candidates = following_usernames - follower_usernames

@@ -6,23 +6,25 @@ from scripts.utils import get_followers, get_following, get_headers, paginate
 class TestHeaders:
     """Test cases for header generation."""
 
-    def test_get_headers(self):
+    @staticmethod
+    def test_get_headers():
         """Test header generation with token."""
         token = "test_token_123"
         headers = get_headers(token)
-        
+
         expected_headers = {
             "Authorization": f"token {token}",
             "Accept": "application/vnd.github.v3+json"
         }
-        
+
         assert headers == expected_headers
 
-    def test_get_headers_different_token(self):
+    @staticmethod
+    def test_get_headers_different_token():
         """Test header generation with different token."""
         token = "different_token_456"
         headers = get_headers(token)
-        
+
         assert headers["Authorization"] == f"token {token}"
         assert headers["Accept"] == "application/vnd.github.v3+json"
 
@@ -34,7 +36,7 @@ class TestPagination:
     def test_paginate_single_page(self):
         """Test pagination with single page response."""
         mock_data = [{"login": "user1"}, {"login": "user2"}]
-        
+
         responses.add(
             responses.GET,
             "https://api.github.com/test",
@@ -43,7 +45,7 @@ class TestPagination:
         )
 
         result = paginate("https://api.github.com/test", "dummy_token")
-        
+
         assert len(result) == 2
         assert result == mock_data
         assert len(responses.calls) == 1
@@ -53,7 +55,7 @@ class TestPagination:
         """Test pagination with multiple pages."""
         page1_data = [{"login": "user1"}, {"login": "user2"}]
         page2_data = [{"login": "user3"}, {"login": "user4"}]
-        
+
         # First page with link to next page
         responses.add(
             responses.GET,
@@ -62,7 +64,7 @@ class TestPagination:
             status=200,
             headers={"Link": '<https://api.github.com/test?page=2>; rel="next"'}
         )
-        
+
         # Second page without next link
         responses.add(
             responses.GET,
@@ -72,7 +74,7 @@ class TestPagination:
         )
 
         result = paginate("https://api.github.com/test", "dummy_token")
-        
+
         assert len(result) == 4
         assert result == page1_data + page2_data
         assert len(responses.calls) == 2
@@ -88,7 +90,7 @@ class TestPagination:
         )
 
         result = paginate("https://api.github.com/test", "dummy_token")
-        
+
         assert len(result) == 0
         assert result == []
 
@@ -115,7 +117,7 @@ class TestGetFollowers:
             {"login": "follower1", "id": 1},
             {"login": "follower2", "id": 2}
         ]
-        
+
         responses.add(
             responses.GET,
             "https://api.github.com/user/followers",
@@ -124,7 +126,7 @@ class TestGetFollowers:
         )
 
         result = get_followers("dummy_token")
-        
+
         assert len(result) == 2
         assert result[0]["login"] == "follower1"
         assert result[1]["login"] == "follower2"
@@ -134,7 +136,7 @@ class TestGetFollowers:
         """Test getting followers with pagination."""
         page1 = [{"login": "follower1"}]
         page2 = [{"login": "follower2"}]
-        
+
         responses.add(
             responses.GET,
             "https://api.github.com/user/followers",
@@ -142,7 +144,7 @@ class TestGetFollowers:
             status=200,
             headers={"Link": '<https://api.github.com/user/followers?page=2>; rel="next"'}
         )
-        
+
         responses.add(
             responses.GET,
             "https://api.github.com/user/followers?page=2",
@@ -151,7 +153,7 @@ class TestGetFollowers:
         )
 
         result = get_followers("dummy_token")
-        
+
         assert len(result) == 2
         assert result[0]["login"] == "follower1"
         assert result[1]["login"] == "follower2"
@@ -167,7 +169,7 @@ class TestGetFollowers:
         )
 
         result = get_followers("dummy_token")
-        
+
         assert len(result) == 0
         assert result == []
 
@@ -182,7 +184,7 @@ class TestGetFollowing:
             {"login": "following1", "id": 1},
             {"login": "following2", "id": 2}
         ]
-        
+
         responses.add(
             responses.GET,
             "https://api.github.com/user/following",
@@ -191,7 +193,7 @@ class TestGetFollowing:
         )
 
         result = get_following("dummy_token")
-        
+
         assert len(result) == 2
         assert result[0]["login"] == "following1"
         assert result[1]["login"] == "following2"
@@ -201,7 +203,7 @@ class TestGetFollowing:
         """Test getting following list with pagination."""
         page1 = [{"login": "following1"}]
         page2 = [{"login": "following2"}]
-        
+
         responses.add(
             responses.GET,
             "https://api.github.com/user/following",
@@ -209,7 +211,7 @@ class TestGetFollowing:
             status=200,
             headers={"Link": '<https://api.github.com/user/following?page=2>; rel="next"'}
         )
-        
+
         responses.add(
             responses.GET,
             "https://api.github.com/user/following?page=2",
@@ -218,7 +220,7 @@ class TestGetFollowing:
         )
 
         result = get_following("dummy_token")
-        
+
         assert len(result) == 2
         assert result[0]["login"] == "following1"
         assert result[1]["login"] == "following2"
@@ -234,6 +236,6 @@ class TestGetFollowing:
         )
 
         result = get_following("dummy_token")
-        
+
         assert len(result) == 0
         assert result == []
