@@ -65,9 +65,9 @@ def test_main_dry_run_execution():
 def test_main_missing_token():
     """Test main function when GH_TOKEN is not set."""
     with patch.dict(os.environ, {}, clear=True), \
-         patch.object(sys, 'argv', ['main.py']):
-        with pytest.raises(EnvironmentError, match="GH_TOKEN is not set"):
-            main()
+         patch.object(sys, 'argv', ['main.py']), \
+         pytest.raises(EnvironmentError, match="GH_TOKEN is not set"):
+        main()
 
 
 def test_main_no_changes_needed():
